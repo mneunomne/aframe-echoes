@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Hello, World! • A-Frame</title>
+    <meta name="description" content="Hello, World! • A-Frame">
+    <script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
+    <script src="/js/spawn-in-circle.js"></script>
+    <script src="/js/speakers.js"></script>
+    <script src="/js/speaker.js"></script>
+  </head>
+  <body>
+    <a-scene background="color: #ECECEC">
+      <a-assets>
+        <audio id="echoes-0" src="audios/echoes-0.mp3" preload="auto" loop="true"></audio>
+        
+        <audio id="echoes-1" src="audios/echoes-1.mp3" preload="auto" loop="true"></audio>
+        <audio id="echoes-2" src="audios/echoes-2.mp3" preload="auto" loop="true"></audio>
+        <audio id="echoes-3" src="audios/echoes-3.mp3" preload="auto" loop="true"></audio>
+        <audio id="echoes-4" src="audios/echoes-4.mp3" preload="auto" loop="true"></audio>
+        <audio id="echoes-5" src="audios/echoes-5.mp3" preload="auto" loop="true"></audio>
+        <audio id="echoes-6" src="audios/echoes-6.mp3" preload="auto" loop="true"></audio>
+        <audio id="echoes-7" src="audios/echoes-7.mp3" preload="auto" loop="true"></audio>
+        <audio id="echoes-8" src="audios/echoes-8.mp3" preload="auto" loop="true"></audio>
+        <audio id="echoes-9" src="audios/echoes-9.mp3" preload="auto" loop="true"></audio>
+        <audio id="echoes-10" src="audios/echoes-10.mp3" preload="auto"></audio>
+        <audio id="echoes-11" src="audios/echoes-11.mp3" preload="auto"></audio>
+        <audio id="echoes-12" src="audios/echoes-12.mp3" preload="auto"></audio>
+        <audio id="echoes-13" src="audios/echoes-13.mp3" preload="auto"></audio>
+        <audio id="echoes-14" src="audios/echoes-14.mp3" preload="auto"></audio>
+        <audio id="echoes-15" src="audios/echoes-15.mp3" preload="auto"></audio>
+        <audio id="echoes-16" src="audios/echoes-16.mp3" preload="auto"></audio>
+        <audio id="echoes-17" src="audios/echoes-17.mp3" preload="auto"></audio>
+        <audio id="echoes-18" src="audios/echoes-18.mp3" preload="auto"></audio>
+        <audio id="echoes-19" src="audios/echoes-19.mp3" preload="auto"></audio>
+        <audio id="echoes-20" src="audios/echoes-20.mp3" preload="auto"></audio>
+        <audio id="echoes-21" src="audios/echoes-21.mp3" preload="auto"></audio>
+        <audio id="echoes-22" src="audios/echoes-22.mp3" preload="auto"></audio>
+        <audio id="echoes-23" src="audios/echoes-23.mp3" preload="auto"></audio>
+        <audio id="echoes-24" src="audios/echoes-24.mp3" preload="auto"></audio>
+        <audio id="echoes-25" src="audios/echoes-25.mp3" preload="auto"></audio>
+        <audio id="echoes-26" src="audios/echoes-26.mp3" preload="auto"></audio>
+        <audio id="echoes-27" src="audios/echoes-27.mp3" preload="auto"></audio>
+        <audio id="echoes-28" src="audios/echoes-28.mp3" preload="auto"></audio>
+        <audio id="echoes-29" src="audios/echoes-29.mp3" preload="auto"></audio>
+        <audio id="echoes-30" src="audios/echoes-30.mp3" preload="auto"></audio>
+        <audio id="echoes-31" src="audios/echoes-31.mp3" preload="auto"></audio>
+        <audio id="echoes-32" src="audios/echoes-32.mp3" preload="auto"></audio>
+        <audio id="echoes-33" src="audios/echoes-33.mp3" preload="auto"></audio>
+        <audio id="echoes-34" src="audios/echoes-34.mp3" preload="auto"></audio>
+        <audio id="echoes-35" src="audios/echoes-35.mp3" preload="auto"></audio>
+        <audio id="echoes-36" src="audios/echoes-36.mp3" preload="auto"></audio>
+        <audio id="echoes-37" src="audios/echoes-37.mp3" preload="auto"></audio>
+        <audio id="echoes-38" src="audios/echoes-38.mp3" preload="auto"></audio>
+        <audio id="echoes-39" src="audios/echoes-39.mp3" preload="auto"></audio>
+        <audio id="echoes-40" src="audios/echoes-40.mp3" preload="auto"></audio>
+        <audio id="echoes-41" src="audios/echoes-41.mp3" preload="auto"></audio>
+        <audio id="echoes-42" src="audios/echoes-42.mp3" preload="auto"></audio>
+        <audio id="echoes-43" src="audios/echoes-43.mp3" preload="auto"></audio>
+        <audio id="echoes-44" src="audios/echoes-44.mp3" preload="auto"></audio>
+        <audio id="echoes-45" src="audios/echoes-45.mp3" preload="auto"></audio>
+        <audio id="echoes-46" src="audios/echoes-46.mp3" preload="auto"></audio>
+        <audio id="echoes-47" src="audios/echoes-47.mp3" preload="auto"></audio>
+        <audio id="echoes-48" src="audios/echoes-48.mp3" preload="auto"></audio>
+        <audio id="echoes-49" src="audios/echoes-49.mp3" preload="auto"></audio>
+        <audio id="echoes-50" src="audios/echoes-50.mp3" preload="auto"></audio>
+        <audio id="echoes-51" src="audios/echoes-51.mp3" preload="auto"></audio>
+        <audio id="echoes-52" src="audios/echoes-52.mp3" preload="auto"></audio>
+        <audio id="echoes-53" src="audios/echoes-53.mp3" preload="auto"></audio>
+        <audio id="echoes-54" src="audios/echoes-54.mp3" preload="auto"></audio>
+        <audio id="echoes-55" src="audios/echoes-55.mp3" preload="auto"></audio>
+        <audio id="echoes-56" src="audios/echoes-56.mp3" preload="auto"></audio>
+        <audio id="echoes-57" src="audios/echoes-57.mp3" preload="auto"></audio>
+        <audio id="echoes-58" src="audios/echoes-58.mp3" preload="auto"></audio>
+        <audio id="echoes-59" src="audios/echoes-59.mp3" preload="auto"></audio>
+        <audio id="echoes-60" src="audios/echoes-60.mp3" preload="auto"></audio>
+        <audio id="echoes-61" src="audios/echoes-61.mp3" preload="auto"></audio>
+        <audio id="echoes-62" src="audios/echoes-62.mp3" preload="auto"></audio>
+        <audio id="echoes-63" src="audios/echoes-63.mp3" preload="auto"></audio>
+        <audio id="echoes-64" src="audios/echoes-64.mp3" preload="auto"></audio>
+        <audio id="echoes-65" src="audios/echoes-65.mp3" preload="auto"></audio>
+        <audio id="echoes-66" src="audios/echoes-66.mp3" preload="auto"></audio>
+        <audio id="echoes-67" src="audios/echoes-67.mp3" preload="auto"></audio>
+        <audio id="echoes-68" src="audios/echoes-68.mp3" preload="auto"></audio>
+        <audio id="echoes-69" src="audios/echoes-69.mp3" preload="auto"></audio>
+        <audio id="echoes-70" src="audios/echoes-70.mp3" preload="auto"></audio>
+        <audio id="echoes-71" src="audios/echoes-71.mp3" preload="auto"></audio>
+        <audio id="echoes-72" src="audios/echoes-72.mp3" preload="auto"></audio>
+        <audio id="echoes-73" src="audios/echoes-73.mp3" preload="auto"></audio>
+        <audio id="echoes-74" src="audios/echoes-74.mp3" preload="auto"></audio>
+        <audio id="echoes-75" src="audios/echoes-75.mp3" preload="auto"></audio>
+        <audio id="echoes-76" src="audios/echoes-76.mp3" preload="auto"></audio>
+        <audio id="echoes-77" src="audios/echoes-77.mp3" preload="auto"></audio>
+        <audio id="echoes-78" src="audios/echoes-78.mp3" preload="auto"></audio>
+        <audio id="echoes-79" src="audios/echoes-79.mp3" preload="auto"></audio>
+        <audio id="echoes-80" src="audios/echoes-80.mp3" preload="auto"></audio>
+        <audio id="echoes-81" src="audios/echoes-81.mp3" preload="auto"></audio>
+        <audio id="echoes-82" src="audios/echoes-82.mp3" preload="auto"></audio>
+        <audio id="echoes-83" src="audios/echoes-83.mp3" preload="auto"></audio>
+        <audio id="echoes-84" src="audios/echoes-84.mp3" preload="auto"></audio>
+        <audio id="echoes-85" src="audios/echoes-85.mp3" preload="auto"></audio>
+        <audio id="echoes-86" src="audios/echoes-86.mp3" preload="auto"></audio>
+        <audio id="echoes-87" src="audios/echoes-87.mp3" preload="auto"></audio>
+        <audio id="echoes-88" src="audios/echoes-88.mp3" preload="auto"></audio>
+        <audio id="echoes-89" src="audios/echoes-89.mp3" preload="auto"></audio>
+      </a-assets>
+      
+      <a-sphere speaker="name: alberto;" radius="0.2" position="0 1.6 0" color="#EF2D5E"></a-sphere>
+      <a-sphere speaker="name: qianxun;" radius="0.2" position="0 1.6 0" color="#EF2D5E"></a-sphere>
+      <a-sphere speaker="name: nilya;" radius="0.2" position="0 1.6 0" color="#EF2D5E"></a-sphere>
+      <a-sphere speaker="name: rouxi;" radius="0.2" position="0 1.6 0" color="#EF2D5E"></a-sphere>
+      <a-sphere speaker="name: hem;" radius="0.2" position="0 1.6 0" color="#EF2D5E"></a-sphere>
+      <a-sphere speaker="name: antonio;" radius="0.2" position="0 1.6 0" color="#EF2D5E"></a-sphere>
+      <a-sphere speaker="name: kazuki;" radius="0.2" position="0 1.6 0" color="#EF2D5E"></a-sphere>
+      <a-sphere speaker="name: chihim;" radius="0.2" position="0 1.6 0" color="#EF2D5E"></a-sphere>
+      <a-sphere speaker="name: sangbong;" radius="0.2" position="0 1.6 0" color="#EF2D5E"></a-sphere>
+      <a-sphere speaker="name: josh;" radius="0.2" position="0 1.6 0" color="#EF2D5E"></a-sphere>
+      <a-sphere speaker="name: bojana;" radius="0.2" position="0 1.6 0" color="#EF2D5E"></a-sphere>
+      <a-sphere speaker="name: soumya;" radius="0.2" position="0 1.6 0" color="#EF2D5E"></a-sphere>
+      <a-sphere speaker="name: victor;" radius="0.2" position="0 1.6 0" color="#EF2D5E"></a-sphere>
+      <a-sphere speaker="name: deba;" radius="0.2" position="0 1.6 0" color="#EF2D5E"></a-sphere>
+      <a-sphere speaker="name: julia;" radius="0.2" position="0 1.6 0" color="#EF2D5E"></a-sphere>
+      <a-sphere speaker="name: ayse;" radius="0.2" position="0 1.6 0" color="#EF2D5E"></a-sphere>
+      <a-sphere speaker="name: hanna;" radius="0.2" position="0 1.6 0" color="#EF2D5E"></a-sphere>
+    
+    </a-scene>
+    <button style="position: absolute; top: 10px;">PLAY</button>
+    <script>
+      document.querySelector('button').addEventListener('click', function() {
+        var entities = document.querySelectorAll('[sound]');
+
+        [].forEach.call(entities, function(entity) {
+          // entity.components.sound.playSound();
+        })
+      });
+    </script>
+  </body>
+</html>
