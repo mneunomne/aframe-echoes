@@ -23,13 +23,13 @@ AFRAME.registerComponent('speaker', {
     var index = 0
 
     document.querySelector('button').addEventListener('click', function() {
-      el.setAttribute('sound', 'src: #' + audios[index] + ';  autoplay: true;')
+      el.setAttribute('sound', 'src: #' + audios[index] + ';  autoplay: true; poolSize: 20;')
     })
 
     el.addEventListener('sound-ended', (evt) => {
       console.log('sound ended', evt)
       index = index === audios.length-1 ? 0 : index+1 
-      evt.target.setAttribute('sound', 'src: #' + audios[index] + '; autoplay: true;')
+      evt.target.setAttribute('sound', 'src: #' + audios[index] + '; autoplay: true; poolSize: 20;')
 
     })
 
