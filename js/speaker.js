@@ -29,12 +29,13 @@ AFRAME.registerComponent('speaker', {
     el.addEventListener('sound-ended', (evt) => {
       console.log('sound ended', evt)
       index = index === audios.length-1 ? 0 : index+1 
-      el.setAttribute('sound', 'src: #' + audios[index] + ';')
+      evt.target.setAttribute('sound', 'src: #' + audios[index] + '; autoplay: true;')
+
     })
 
     el.addEventListener('sound-loaded', (evt) => {
       console.log('sound loaded', evt)
-      el.components.sound.playSound();
+      evt.target.components.sound.playSound();
     })
 
     const area = 20 
