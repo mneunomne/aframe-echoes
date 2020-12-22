@@ -18,24 +18,30 @@ AFRAME.registerComponent('speaker', {
 
     console.log(window.speakers[this.data.name], this.data.name)
 
-    const audios = window.speakers[this.data.name].map(n => n.replace('.wav',''))
+    var name = this.data.name
 
     var index = 0
 
-    document.querySelector('button').addEventListener('click', function() {
-      el.setAttribute('sound', 'src: #' + audios[index] + ';  autoplay: true; poolSize: 20;')
+    var audios = window.speakers[this.data.name].map(n => n.replace('.wav',''))
+    
+    
+    audios.map((n, i) => {
+      var _el = document.createElement('a-entity');
+      _el.setAttribute('sound', 'src: #' + audios[i] + ';')
+      _el.setAttribute('id', this.data.name + i)
+      _el.addEventListener('sound-ended', (evt) => {
+        console.log('sound ended', evt)
+        index = index === audios.length-1 ? 0 : index+1
+        this.playSound(index)
+      })
+      el.appendChild(_el)
     })
 
-    el.addEventListener('sound-ended', (evt) => {
-      console.log('sound ended', evt)
-      index = index === audios.length-1 ? 0 : index+1 
-      evt.target.setAttribute('sound', 'src: #' + audios[index] + '; autoplay: true; poolSize: 20;')
 
-    })
-
-    el.addEventListener('sound-loaded', (evt) => {
-      console.log('sound loaded', evt)
-      evt.target.components.sound.playSound();
+    document.querySelector('button').addEventListener('click', () => {
+      // el.setAttribute('sound', 'src: #' + audios[index] + ';  autoplay: true; poolSize: 20;')
+      console.log('index', index)
+      this.playSound(index)
     })
 
     const area = 20 
@@ -44,13 +50,11 @@ AFRAME.registerComponent('speaker', {
 
   },
 
-  getRandomAngleInRadians: function() {
-    return Math.random()*Math.PI*2;
-  },
+  playSound: function(index) {
+    let el = this.el.querySelector('#' + this.data.name + index)
 
-  randomPointOnCircle: function (radius, angleRad) {
-    var x = Math.cos(angleRad)*radius;
-    var y = Math.sin(angleRad)*radius;
-    return {x: x, y: y};
+    console.log('el', el, this.data.name, index)
+
+    this.el.querySelector('#' + this.data.name + index).components.sound.playSound()
   }
 });
