@@ -1,0 +1,23 @@
+{
+  "name": "aframe-echoes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "extractData.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mneunomne/aframe-echoes.git"
+  },
+  "author": "Alberto Harres",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mneunomne/aframe-echoes/issues"
+  },
+  "homepage": "https://github.com/mneunomne/aframe-echoes#readme",
+  "dependencies": {
+    "child_process": "^1.0.2",
+    "sox": "^0.1.0"
+  }
+}
