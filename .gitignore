@@ -1,6 +1,5 @@
 node_modules
 telegram_data/
-convert_dest/
 package-lock.json
 logs/*
 .DS_Store
