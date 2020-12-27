@@ -9,11 +9,27 @@ function getData () {
   // .filter(m => m.type === 'message' && m.text !== '')
   let messages = telegram_data.messages
   let audio_texts_pairs = messages.filter(
-    m => (m.text === '' && m.media_type === 'voice_message') || m.text !== ''
-  ).map(
-    m => m.text === '' && m.media_type === 'voice_message' ? m.file : m.text
+    m => (m.text === '' && m.media_type === 'voice_message') && m.id !== 3 || m.text !== ''
   )
-  console.log('audio_texts_pairs', audio_texts_pairs)
+  
+  audio_texts_pairs = audio_texts_pairs.map(
+    (m, index) => {
+      var { from, file, text, id} = m
+      if (m.text === '' && m.media_type === 'voice_message') {
+        let next_text = audio_texts_pairs[index+1].text
+        console.log('next_text',next_text)
+        return {
+          from,
+          file,
+          id,
+          next_text
+        }
+      } else {
+        return false
+      }
+    }
+  )
+  // console.log('audio_texts_pairs', audio_texts_pairs)
   return audio_texts_pairs
 }
 

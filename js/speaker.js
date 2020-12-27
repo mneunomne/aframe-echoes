@@ -26,6 +26,7 @@ AFRAME.registerComponent('speaker', {
     
     
     audios.map((n, i) => {
+      // create audio entity
       var _el = document.createElement('a-entity');
       _el.setAttribute('sound', 'src: #' + audios[i] + ';')
       _el.setAttribute('id', this.data.name + i)
