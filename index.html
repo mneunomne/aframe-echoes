@@ -163,15 +163,17 @@
         <a-sphere speaker="name_id: r; name: Hanna;" radius="0"  position="0 1.6 0" color="#EF2D5E"></a-sphere>
       </a-entity>
     </a-scene>
-    <button style="position: absolute; top: 10px;">PLAY</button>
-    <script>
-      document.querySelector('button').addEventListener('click', function() {
-        var entities = document.querySelectorAll('[sound]');
 
-        [].forEach.call(entities, function(entity) {
-          // entity.components.sound.playSound();
-        })
-      });
-    </script>
+    <!-- UI -->
+    <div style="position: absolute; top: 10px;" id="controls">
+      <button id="btn_play">PLAY</button>
+      <div style="background: white;">
+        <input type="checkbox" id="show_names" name="show_names" value="show_names">
+        <label for="vehicle1">Show names</label><br>
+      </div>
+
+    </div>
+
+    <script src="./js/script.js"></script>
   </body>
 </html>
