@@ -14,15 +14,18 @@ AFRAME.registerComponent('speaker', {
     var center = el.getAttribute('position');
     const randomColor = Math.floor(Math.random()*16777215).toString(16)
 
+    this.cameraEl = document.getElementById('camera')
+
     // set sphere propeties
     el.setAttribute('color', "#" + randomColor)
-    el.setAttribute('radius', Math.random()*1 + 0.1)
+    el.setAttribute('radius', Math.random()*0.5 + 0.5)
     this.cur_index = 0
 
     let audio_list = window.db_audios.filter(a => a.from === this.data.name)
     this.audio_list = audio_list
 
-    this.show_names = false 
+    this.show_names = false
+    this.show_orbits = false
     
     // Audios
     this.createAudioEntity()
@@ -33,12 +36,64 @@ AFRAME.registerComponent('speaker', {
 
     this.addEvents()
 
+    this.calculatePosition()
+
+    // this.setupAudioMeter()
 
     // position in random point 
-    const area = 30
-    var worldPoint = {x: center.x + (Math.random() * area - area/2), y: center.y + (Math.random() * 10 - 10/2), z: center.z + (Math.random() * area - area/2)};
-    el.setAttribute('position', worldPoint);
+    // const area = 30
+    // var worldPoint = {x: center.x + (Math.random() * area - area/2), y: center.y + (Math.random() * 10 - 10/2), z: center.z + (Math.random() * area - area/2)};
+    // el.setAttribute('position', worldPoint);
 
+  },
+
+  calculatePosition () {
+    const max_radius = 50
+    const min_radius = 10
+    this.vel = (Math.random() * 0.025) - 0.012
+    this.theta = 0
+    this.radiusX = min_radius + (Math.random() * max_radius - min_radius)
+    this.radiusY = min_radius + (Math.random() * max_radius - min_radius)
+    this.pos = {x: 0, y: 0, z: 0}
+
+    const curve = new THREE.EllipseCurve(
+      0,  0,            // ax, aY
+      this.radiusX, this.radiusY,           // xRadius, yRadius
+      0,  2 * Math.PI,  // aStartAngle, aEndAngle
+      false,            // aClockwise
+      0                 // aRotation
+    );
+    
+    const points = curve.getPoints( 50 );
+    const geometry = new THREE.BufferGeometry().setFromPoints( points );
+    
+    const material = new THREE.LineBasicMaterial( { color : 0xff0000 } );
+    
+    // Create the final object to add to the scene
+    this.ellipse = new THREE.Line( geometry, material );
+    this.ellipse.rotation.set(
+      THREE.Math.degToRad(90),
+      THREE.Math.degToRad(0),
+      THREE.Math.degToRad(0)
+    )
+
+    this.ellipse.visible = this.show_orbits
+
+    this.el.object3D.parent.el.object3D.add(this.ellipse)
+
+    this.el.object3D.parent.rotation.set(
+      THREE.Math.degToRad(Math.random() * 60 - 30),
+      THREE.Math.degToRad(0),
+      THREE.Math.degToRad(0)
+    );
+
+    setInterval(this.orbit.bind(this), 10)
+  },
+
+  orbit () {
+    this.theta+=this.vel
+    this.pos = {x: this.radiusX * Math.cos( this.theta ), y: 0, z: this.radiusY * Math.sin( this.theta )};
+    this.el.object3D.position.set(this.pos.x, this.pos.y, this.pos.z)
   },
 
   addEvents () {
@@ -54,6 +109,24 @@ AFRAME.registerComponent('speaker', {
       this.show_names = false
       this.name_el.setAttribute('visible', this.show_names)
     })
+
+    document.addEventListener('show_orbits', () => {
+      this.show_orbits = true
+      this.ellipse.visible = this.show_orbits
+    })
+    document.addEventListener('hide_orbits', () => {
+      this.show_orbits = false
+      this.ellipse.visible = this.show_orbits
+    })
+
+    this.el.addEventListener('click', this.onClick.bind(this))
+  },
+
+  onClick () {
+    // this.getPosInterval = setInterval(() => {
+      // console.log('this.pos', this.pos)
+      // this.cameraEl.object3D.position.set(this.pos.x + 3, this.pos.y, this.pos.z - 1)
+    // }, 10)
   },
 
   createAudioEntity () {
@@ -112,9 +185,8 @@ AFRAME.registerComponent('speaker', {
   },
 
   audioTextDisplay (text) {
-    // name el
     this.text_target_el.innerText = text
-
+    // name el
     if (document.querySelector(`#text-plane-${this.data.name_id}`)) {
       document.querySelector(`#text-plane-${this.data.name_id}`).remove()
     }
@@ -130,9 +202,33 @@ AFRAME.registerComponent('speaker', {
     }
   },
 
+  setupAudioMeter () {
+    this.context = new AudioContext();
+    this.processor = this.context.createScriptProcessor(2048, 1, 1);
+    this.processor.onaudioprocess = function(evt){
+      var input = evt.inputBuffer.getChannelData(0)
+        , len = input.length   
+        , total = i = 0
+        , rms;
+      while ( i < len ) total += Math.abs( input[i++] );
+      rms = Math.sqrt( total / len );
+      console.log(( rms * 100 ));
+    };
+  },
+
   playSound: function(index) {
-    this.el.querySelector('#' + this.data.name_id + index).components.sound.playSound()
+    let audio_entity = this.el.querySelector('#' + this.data.name_id + index).components.sound
+    audio_entity.playSound()
     
     // this.audioTextDisplay(this.audio_list[index].next_text)
+    
+    /*
+    // let src_el = document.querySelector(audio_entity.attrValue.src)
+    let src_audio_el = document.getElementById(audio_entity.data.src.replace('convert_dest/', '').replace('.mp3', ''))
+    var source = this.context.createMediaElementSource(src_audio_el)
+    source.connect(this.processor)
+    source.connect(this.context.destination)
+    this.processor.connect(this.context.destination)
+    */
   }
 });

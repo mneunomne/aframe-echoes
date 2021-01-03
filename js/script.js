@@ -16,3 +16,14 @@ show_names.addEventListener('change', function() {
     document.dispatchEvent(event)
   }
 });
+
+let show_orbits = document.querySelector("input[name=show_orbits]");
+show_orbits.addEventListener('change', function() {
+  if (this.checked) {
+    var event = new Event('show_orbits')
+    document.dispatchEvent(event)
+  } else {
+    var event = new Event('hide_orbits')
+    document.dispatchEvent(event)
+  }
+});
