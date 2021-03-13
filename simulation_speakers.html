@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Simulation</title>
+    <meta name="description" content="Hello, World! • A-Frame">
+    <!-- aframe stuff -->
+    <script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-html-shader@0.2.0/dist/aframe-html-shader.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+    <script src="https://gftruj.github.io/webzamples/aframe/collada/dist/collada-model.js"></script>
+    <script src="./js/spawn-in-circle.js"></script>
+    <script src="./js/speaker_mask.js"></script>
+    <script src="./js/look-at-y.js"></script>
+    <script src="./js/room.js"></script>
+    <script src="./js/movement-restrictor.js"></script>
+    <!-- audio data -->
+    <script src="./js/speakers.js"></script>
+    <!-- other libs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js" integrity="sha512-UFPpekaMf0TrCIkPv9mRT3reo/HzSjkOLq57Rtzb+E1ej1TRUOes6J/Ge4uZXyxWA9b4i5DqSZns79YaUoJ2kA==" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div id="text-wrapper" style="width: 100%; height: 100%; position: fixed; left: 0; top: 0; z-index: -1; overflow: hidden">
+    </div>
+    <a-scene background="color: #ECECEC" >
+      <a-assets>
+        <!-- audios -->
+        <audio id="audio_10@15-12-2020_17-37-48" src="convert_dest/audio_10@15-12-2020_17-37-48.mp3" preload="auto"></audio>
+        <audio id="audio_11@15-12-2020_17-38-22" src="convert_dest/audio_11@15-12-2020_17-38-22.mp3" preload="auto"></audio>
+        <audio id="audio_12@15-12-2020_17-41-09" src="convert_dest/audio_12@15-12-2020_17-41-09.mp3" preload="auto"></audio>
+        <audio id="audio_13@15-12-2020_17-41-53" src="convert_dest/audio_13@15-12-2020_17-41-53.mp3" preload="auto"></audio>
+        <audio id="audio_14@15-12-2020_17-42-02" src="convert_dest/audio_14@15-12-2020_17-42-02.mp3" preload="auto"></audio>
+        <audio id="audio_15@15-12-2020_17-42-35" src="convert_dest/audio_15@15-12-2020_17-42-35.mp3" preload="auto"></audio>
+        <audio id="audio_16@15-12-2020_17-43-50" src="convert_dest/audio_16@15-12-2020_17-43-50.mp3" preload="auto"></audio>
+        <audio id="audio_17@15-12-2020_17-44-55" src="convert_dest/audio_17@15-12-2020_17-44-55.mp3" preload="auto"></audio>
+        <audio id="audio_18@15-12-2020_17-45-04" src="convert_dest/audio_18@15-12-2020_17-45-04.mp3" preload="auto"></audio>
+        <audio id="audio_19@15-12-2020_17-55-57" src="convert_dest/audio_19@15-12-2020_17-55-57.mp3" preload="auto"></audio>
+        <audio id="audio_1@15-12-2020_14-57-52" src="convert_dest/audio_1@15-12-2020_14-57-52.mp3" preload="auto"></audio>
+        <audio id="audio_20@15-12-2020_18-02-26" src="convert_dest/audio_20@15-12-2020_18-02-26.mp3" preload="auto"></audio>
+        <audio id="audio_21@15-12-2020_18-02-45" src="convert_dest/audio_21@15-12-2020_18-02-45.mp3" preload="auto"></audio>
+        <audio id="audio_22@15-12-2020_18-02-53" src="convert_dest/audio_22@15-12-2020_18-02-53.mp3" preload="auto"></audio>
+        <audio id="audio_23@15-12-2020_18-08-21" src="convert_dest/audio_23@15-12-2020_18-08-21.mp3" preload="auto"></audio>
+        <audio id="audio_24@15-12-2020_18-10-32" src="convert_dest/audio_24@15-12-2020_18-10-32.mp3" preload="auto"></audio>
+        <audio id="audio_25@15-12-2020_18-12-33" src="convert_dest/audio_25@15-12-2020_18-12-33.mp3" preload="auto"></audio>
+        <audio id="audio_26@15-12-2020_18-13-47" src="convert_dest/audio_26@15-12-2020_18-13-47.mp3" preload="auto"></audio>
+        <audio id="audio_27@15-12-2020_18-19-53" src="convert_dest/audio_27@15-12-2020_18-19-53.mp3" preload="auto"></audio>
+        <audio id="audio_28@15-12-2020_20-16-18" src="convert_dest/audio_28@15-12-2020_20-16-18.mp3" preload="auto"></audio>
+        <audio id="audio_29@15-12-2020_20-16-35" src="convert_dest/audio_29@15-12-2020_20-16-35.mp3" preload="auto"></audio>
+        <audio id="audio_2@15-12-2020_14-58-37" src="convert_dest/audio_2@15-12-2020_14-58-37.mp3" preload="auto"></audio>
+        <audio id="audio_30@16-12-2020_13-17-48" src="convert_dest/audio_30@16-12-2020_13-17-48.mp3" preload="auto"></audio>
+        <audio id="audio_31@16-12-2020_13-20-38" src="convert_dest/audio_31@16-12-2020_13-20-38.mp3" preload="auto"></audio>
+        <audio id="audio_32@16-12-2020_14-13-07" src="convert_dest/audio_32@16-12-2020_14-13-07.mp3" preload="auto"></audio>
+        <audio id="audio_33@16-12-2020_14-13-19" src="convert_dest/audio_33@16-12-2020_14-13-19.mp3" preload="auto"></audio>
+        <audio id="audio_34@16-12-2020_14-13-27" src="convert_dest/audio_34@16-12-2020_14-13-27.mp3" preload="auto"></audio>
+        <audio id="audio_35@16-12-2020_14-13-36" src="convert_dest/audio_35@16-12-2020_14-13-36.mp3" preload="auto"></audio>
+        <audio id="audio_36@16-12-2020_14-15-39" src="convert_dest/audio_36@16-12-2020_14-15-39.mp3" preload="auto"></audio>
+        <audio id="audio_37@16-12-2020_14-15-51" src="convert_dest/audio_37@16-12-2020_14-15-51.mp3" preload="auto"></audio>
+        <audio id="audio_38@16-12-2020_14-16-06" src="convert_dest/audio_38@16-12-2020_14-16-06.mp3" preload="auto"></audio>
+        <audio id="audio_39@16-12-2020_14-16-16" src="convert_dest/audio_39@16-12-2020_14-16-16.mp3" preload="auto"></audio>
+        <audio id="audio_3@15-12-2020_16-21-06" src="convert_dest/audio_3@15-12-2020_16-21-06.mp3" preload="auto"></audio>
+        <audio id="audio_40@16-12-2020_14-49-03" src="convert_dest/audio_40@16-12-2020_14-49-03.mp3" preload="auto"></audio>
+        <audio id="audio_41@16-12-2020_15-16-56" src="convert_dest/audio_41@16-12-2020_15-16-56.mp3" preload="auto"></audio>
+        <audio id="audio_42@16-12-2020_15-19-02" src="convert_dest/audio_42@16-12-2020_15-19-02.mp3" preload="auto"></audio>
+        <audio id="audio_43@16-12-2020_15-23-28" src="convert_dest/audio_43@16-12-2020_15-23-28.mp3" preload="auto"></audio>
+        <audio id="audio_44@16-12-2020_18-02-27" src="convert_dest/audio_44@16-12-2020_18-02-27.mp3" preload="auto"></audio>
+        <audio id="audio_45@16-12-2020_18-03-10" src="convert_dest/audio_45@16-12-2020_18-03-10.mp3" preload="auto"></audio>
+        <audio id="audio_46@16-12-2020_19-05-24" src="convert_dest/audio_46@16-12-2020_19-05-24.mp3" preload="auto"></audio>
+        <audio id="audio_47@16-12-2020_19-07-09" src="convert_dest/audio_47@16-12-2020_19-07-09.mp3" preload="auto"></audio>
+        <audio id="audio_48@16-12-2020_19-08-12" src="convert_dest/audio_48@16-12-2020_19-08-12.mp3" preload="auto"></audio>
+        <audio id="audio_49@16-12-2020_19-10-14" src="convert_dest/audio_49@16-12-2020_19-10-14.mp3" preload="auto"></audio>
+        <audio id="audio_4@15-12-2020_16-31-05" src="convert_dest/audio_4@15-12-2020_16-31-05.mp3" preload="auto"></audio>
+        <audio id="audio_50@16-12-2020_19-10-23" src="convert_dest/audio_50@16-12-2020_19-10-23.mp3" preload="auto"></audio>
+        <audio id="audio_51@16-12-2020_19-10-59" src="convert_dest/audio_51@16-12-2020_19-10-59.mp3" preload="auto"></audio>
+        <audio id="audio_52@16-12-2020_19-11-42" src="convert_dest/audio_52@16-12-2020_19-11-42.mp3" preload="auto"></audio>
+        <audio id="audio_53@16-12-2020_19-22-23" src="convert_dest/audio_53@16-12-2020_19-22-23.mp3" preload="auto"></audio>
+        <audio id="audio_54@16-12-2020_21-41-43" src="convert_dest/audio_54@16-12-2020_21-41-43.mp3" preload="auto"></audio>
+        <audio id="audio_55@17-12-2020_10-32-05" src="convert_dest/audio_55@17-12-2020_10-32-05.mp3" preload="auto"></audio>
+        <audio id="audio_56@17-12-2020_11-50-21" src="convert_dest/audio_56@17-12-2020_11-50-21.mp3" preload="auto"></audio>
+        <audio id="audio_57@17-12-2020_11-50-29" src="convert_dest/audio_57@17-12-2020_11-50-29.mp3" preload="auto"></audio>
+        <audio id="audio_58@17-12-2020_11-50-39" src="convert_dest/audio_58@17-12-2020_11-50-39.mp3" preload="auto"></audio>
+        <audio id="audio_59@17-12-2020_11-50-48" src="convert_dest/audio_59@17-12-2020_11-50-48.mp3" preload="auto"></audio>
+        <audio id="audio_5@15-12-2020_17-10-04" src="convert_dest/audio_5@15-12-2020_17-10-04.mp3" preload="auto"></audio>
+        <audio id="audio_60@17-12-2020_11-50-57" src="convert_dest/audio_60@17-12-2020_11-50-57.mp3" preload="auto"></audio>
+        <audio id="audio_61@17-12-2020_12-06-09" src="convert_dest/audio_61@17-12-2020_12-06-09.mp3" preload="auto"></audio>
+        <audio id="audio_62@17-12-2020_12-06-22" src="convert_dest/audio_62@17-12-2020_12-06-22.mp3" preload="auto"></audio>
+        <audio id="audio_63@17-12-2020_12-16-03" src="convert_dest/audio_63@17-12-2020_12-16-03.mp3" preload="auto"></audio>
+        <audio id="audio_64@17-12-2020_12-37-12" src="convert_dest/audio_64@17-12-2020_12-37-12.mp3" preload="auto"></audio>
+        <audio id="audio_65@17-12-2020_12-37-54" src="convert_dest/audio_65@17-12-2020_12-37-54.mp3" preload="auto"></audio>
+        <audio id="audio_66@17-12-2020_12-38-13" src="convert_dest/audio_66@17-12-2020_12-38-13.mp3" preload="auto"></audio>
+        <audio id="audio_67@17-12-2020_12-41-41" src="convert_dest/audio_67@17-12-2020_12-41-41.mp3" preload="auto"></audio>
+        <audio id="audio_68@17-12-2020_13-42-41" src="convert_dest/audio_68@17-12-2020_13-42-41.mp3" preload="auto"></audio>
+        <audio id="audio_69@17-12-2020_13-43-02" src="convert_dest/audio_69@17-12-2020_13-43-02.mp3" preload="auto"></audio>
+        <audio id="audio_6@15-12-2020_17-11-15" src="convert_dest/audio_6@15-12-2020_17-11-15.mp3" preload="auto"></audio>
+        <audio id="audio_70@17-12-2020_13-43-14" src="convert_dest/audio_70@17-12-2020_13-43-14.mp3" preload="auto"></audio>
+        <audio id="audio_71@17-12-2020_13-43-29" src="convert_dest/audio_71@17-12-2020_13-43-29.mp3" preload="auto"></audio>
+        <audio id="audio_72@17-12-2020_13-43-48" src="convert_dest/audio_72@17-12-2020_13-43-48.mp3" preload="auto"></audio>
+        <audio id="audio_73@17-12-2020_13-46-23" src="convert_dest/audio_73@17-12-2020_13-46-23.mp3" preload="auto"></audio>
+        <audio id="audio_74@17-12-2020_13-46-50" src="convert_dest/audio_74@17-12-2020_13-46-50.mp3" preload="auto"></audio>
+        <audio id="audio_75@17-12-2020_13-46-59" src="convert_dest/audio_75@17-12-2020_13-46-59.mp3" preload="auto"></audio>
+        <audio id="audio_76@17-12-2020_13-47-15" src="convert_dest/audio_76@17-12-2020_13-47-15.mp3" preload="auto"></audio>
+        <audio id="audio_77@17-12-2020_13-47-33" src="convert_dest/audio_77@17-12-2020_13-47-33.mp3" preload="auto"></audio>
+        <audio id="audio_78@17-12-2020_13-57-42" src="convert_dest/audio_78@17-12-2020_13-57-42.mp3" preload="auto"></audio>
+        <audio id="audio_79@17-12-2020_13-58-13" src="convert_dest/audio_79@17-12-2020_13-58-13.mp3" preload="auto"></audio>
+        <audio id="audio_7@15-12-2020_17-20-54" src="convert_dest/audio_7@15-12-2020_17-20-54.mp3" preload="auto"></audio>
+        <audio id="audio_80@17-12-2020_14-15-18" src="convert_dest/audio_80@17-12-2020_14-15-18.mp3" preload="auto"></audio>
+        <audio id="audio_81@17-12-2020_14-20-30" src="convert_dest/audio_81@17-12-2020_14-20-30.mp3" preload="auto"></audio>
+        <audio id="audio_82@17-12-2020_14-20-58" src="convert_dest/audio_82@17-12-2020_14-20-58.mp3" preload="auto"></audio>
+        <audio id="audio_83@17-12-2020_17-33-22" src="convert_dest/audio_83@17-12-2020_17-33-22.mp3" preload="auto"></audio>
+        <audio id="audio_84@17-12-2020_17-33-30" src="convert_dest/audio_84@17-12-2020_17-33-30.mp3" preload="auto"></audio>
+        <audio id="audio_85@17-12-2020_17-33-38" src="convert_dest/audio_85@17-12-2020_17-33-38.mp3" preload="auto"></audio>
+        <audio id="audio_86@17-12-2020_17-33-56" src="convert_dest/audio_86@17-12-2020_17-33-56.mp3" preload="auto"></audio>
+        <audio id="audio_87@18-12-2020_17-12-23" src="convert_dest/audio_87@18-12-2020_17-12-23.mp3" preload="auto"></audio>
+        <audio id="audio_88@18-12-2020_18-05-21" src="convert_dest/audio_88@18-12-2020_18-05-21.mp3" preload="auto"></audio>
+        <audio id="audio_89@18-12-2020_18-06-14" src="convert_dest/audio_89@18-12-2020_18-06-14.mp3" preload="auto"></audio>
+        <audio id="audio_8@15-12-2020_17-36-43" src="convert_dest/audio_8@15-12-2020_17-36-43.mp3" preload="auto"></audio>
+        <audio id="audio_90@18-12-2020_18-06-45" src="convert_dest/audio_90@18-12-2020_18-06-45.mp3" preload="auto"></audio>
+        <audio id="audio_9@15-12-2020_17-37-06" src="convert_dest/audio_9@15-12-2020_17-37-06.mp3" preload="auto"></audio>
+        <!-- images -->
+        <img id="silhouette-0" src="imgs/c109f902eed75c4af959d4404f4bcfdd.png"/>
+        <img id="silhouette-1" src="imgs/silhouettes-nonscandinavia-people-silhouette-png-750_1903.png"/>
+        <img id="silhouette-2" src="imgs/unnamed-1.png"/>
+        <img id="silhouette-3" src="imgs/unnamed-2.png"/>
+        <img id="silhouette-4" src="imgs/unnamed-3.png"/>
+        <img id="silhouette-5" src="imgs/unnamed.png"/>
+        
+        <a-asset-item id="loud-speaker" src="3d/Electronics_Speaker-On-Stand/model.dae"></a-asset-item>
+      </a-assets>
+      
+      <a-entity id="camera" movement-restrictor="w: 9; z: 19;" camera cursor="rayOrigin: mouse" raycaster="interval: 1000; objects: .clickable" look-controls wasd-controls="acceleration:50; fly: false;" position="0 1.6 0"></a-entity>
+      <a-sky color="#000000"></a-sky>
+
+      <!-- room -->
+      <a-entity id="room" room="w: 10; h: 6; z: 20;">
+        
+        <a-entity id="collada" position="3.3 0.0 5" scale="1.7 1.7 1.7" rotation="0 -90 0" collada-model="src: #loud-speaker"></a-entity>
+        <a-entity id="collada" position="3.3 0.0 0" scale="1.7 1.7 1.7" rotation="0 -90 0" collada-model="src: #loud-speaker"></a-entity>
+        <a-entity id="collada" position="3.3 0.0 -5" scale="1.7 1.7 1.7" rotation="0 -90 0" collada-model="src: #loud-speaker"></a-entity>
+        <a-entity id="collada" position="-3.3 0.0 5" scale="1.7 1.7 1.7" rotation="0 90 0" collada-model="src: #loud-speaker"></a-entity>
+        <a-entity id="collada" position="-3.3 0.0 0" scale="1.7 1.7 1.7" rotation="0 90 0" collada-model="src: #loud-speaker"></a-entity>
+        <a-entity id="collada" position="-3.3 0.0 -5" scale="1.7 1.7 1.7" rotation="0 90 0" collada-model="src: #loud-speaker"></a-entity>
+
+        <!-- speakers -->
+        <a-entity>
+          <a-entity class="clickable" speaker="name_id: a; name: Alberto Harres;"></a-entity>
+        </a-entity>
+        <a-entity>
+          <a-entity class="clickable" speaker="name_id: b; name: S. C.;"></a-entity>
+        </a-entity>
+        <a-entity>
+          <a-entity class="clickable" speaker="name_id: c; name: nilya musaeva;"></a-entity>
+        </a-entity>
+        <a-entity>
+          <a-entity class="clickable" speaker="name_id: d; name: 曦 若;"></a-entity>
+        </a-entity>
+        <a-entity>
+          <a-entity class="clickable" speaker="name_id: e; name: Hem Poudyal;"></a-entity>
+        </a-entity>
+        <a-entity>
+          <a-entity class="clickable" speaker="name_id: f; name: Antônio Hof;"></a-entity>
+        </a-entity>
+        <a-entity>
+          <a-entity class="clickable" speaker="name_id: g; name: Kazuki;"></a-entity>
+        </a-entity>
+        <a-entity>
+          <a-entity class="clickable" speaker="name_id: h; name: Chi Him Chik;"></a-entity>
+        </a-entity>
+        <a-entity>
+          <a-entity class="clickable" speaker="name_id: l; name: Sangbong Lee;"></a-entity>
+        </a-entity>
+        <a-entity>
+          <a-entity class="clickable" speaker="name_id: k; name: Josh;"></a-entity>
+        </a-entity>
+        <a-entity>
+          <a-entity class="clickable" speaker="name_id: q; name: Bojana;"></a-entity>
+        </a-entity>
+        <a-entity>
+          <a-entity class="clickable" speaker="name_id: w; name: Soumya Hfk;"></a-entity>
+        </a-entity>
+        <a-entity>
+          <a-entity class="clickable" speaker="name_id: x; name: Victor Artiga;"></a-entity>
+        </a-entity>
+        <a-entity>
+          <a-entity class="clickable" speaker="name_id: y; name: Debaditya Bhowmik;"></a-entity>
+        </a-entity>
+        <a-entity>
+          <a-entity class="clickable" speaker="name_id: u; name: Julia;"></a-entity>
+        </a-entity>
+        <a-entity>
+          <a-entity class="clickable" speaker="name_id: p; name: Ayse Seyhan;"></a-entity>
+        </a-entity>
+        <a-entity>
+          <a-entity class="clickable" speaker="name_id: r; name: Hanna;"></a-entity>
+        </a-entity>
+      </a-entity>
+
+    </a-scene>
+
+    <!-- UI -->
+    <div style="position: absolute; top: 10px;" id="controls">
+      <button id="btn_play">PLAY</button>
+      <div style="background: white;">
+        <input type="checkbox" id="show_names" name="show_names" value="show_names">
+        <label for="show_names">Show Names</label><br>
+      </div>
+      <div style="background: white;">
+        <input type="checkbox" id="show_orbits" name="show_orbits" value="show_orbits">
+        <label for="show_orbits">Show Orbits</label><br>
+      </div>
+
+    </div>
+
+    <script src="./js/script.js"></script>
+  </body>
+</html>

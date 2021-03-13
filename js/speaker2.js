@@ -31,7 +31,6 @@ AFRAME.registerComponent('speaker', {
     this.speakers_list = speakers_list
     speaker_index = speakers_list.indexOf(this.data.name)
     this.speaker_index = speaker_index
-    console.log('speaker_index', speaker_index)
 
     let audio_list = window.db_audios.filter(a => a.from === this.data.name)
     this.audio_list = audio_list
@@ -48,9 +47,9 @@ AFRAME.registerComponent('speaker', {
 
     this.addEvents()
 
-    this.calculateEqualPosition()
+    // this.calculateEqualPosition()
 
-    // this.calculateVariablePosition()
+    this.calculateVariablePosition()
 
     // this.setupAudioMeter()
 
@@ -200,19 +199,16 @@ AFRAME.registerComponent('speaker', {
       _el.setAttribute('sound', 'src: #' + audio_id) // + '; distanceModel: exponential;'
       _el.setAttribute('id', this.data.name_id + i)
       _el.addEventListener('sound-ended', (evt) => {
-
-        let selectable_speakers = this.speakers_list.filter(s => s !== this.data.name)
-
-        let next_speaker = selectable_speakers[Math.floor(Math.random() * selectable_speakers.length)];
-
-        console.log('next_speaker', next_speaker, selectable_speakers, this.speakers_list, this.speaker_index)
-
         this.cur_index = this.cur_index === this.audio_list.length-1 ? 0 : this.cur_index+1
-        
+
+        /*
+        let selectable_speakers = this.speakers_list.filter(s => s !== this.data.name)
+        let next_speaker = selectable_speakers[Math.floor(Math.random() * selectable_speakers.length)];
         var event = new CustomEvent('next-sound', {detail: next_speaker})
         document.dispatchEvent(event)
+        */
         
-        // this.playSound(this.cur_index)
+        this.playSound(this.cur_index)
       })
       this.el.appendChild(_el)
     })

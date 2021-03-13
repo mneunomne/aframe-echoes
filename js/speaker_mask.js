@@ -16,6 +16,8 @@ AFRAME.registerComponent('speaker', {
 
     this.cameraEl = document.getElementById('camera')
 
+    this.roomEl = document.getElementById('room')
+
     // set sphere propeties
     el.setAttribute('color', "#" + randomColor)
     
@@ -48,122 +50,54 @@ AFRAME.registerComponent('speaker', {
 
     this.addEvents()
 
-    this.calculateEqualPosition()
-
-    // this.calculateVariablePosition()
-
-    // this.setupAudioMeter()
+    this.createSilhouette()
 
     // position in random point 
-    // const area = 30
-    // var worldPoint = {x: center.x + (Math.random() * area - area/2), y: center.y + (Math.random() * 10 - 10/2), z: center.z + (Math.random() * area - area/2)};
-    // el.setAttribute('position', worldPoint);
+    const w = 9
+    const z = 18
+
+    this.walker = new Walker(w, z)
+
+    
+    var worldPoint = {x: center.x + (Math.random() * w - w/2), y: 1.6, z: center.z + (Math.random() * z - z/2)};
+    el.setAttribute('position', worldPoint);
+    this.walker.step(el.object3D)
+    setInterval(() => {
+      this.walker.step(el.object3D)
+    }, 10)
 
   },
-  calculateEqualPosition () {
-    const radius = 30
-    this.vel = 0.01 * (-1 * (this.speaker_index % 2 * 2 - 1))
-    this.theta = 0
-    this.radiusX = radius
-    this.radiusY = radius
-    this.pos = {x: 0, y: 0, z: 0}
 
-    // draw line
-    const curve = new THREE.EllipseCurve(
-      0,  0,            // ax, aY
-      this.radiusX, this.radiusY,           // xRadius, yRadius
-      0,  2 * Math.PI,  // aStartAngle, aEndAngle
-      false,            // aClockwise
-      0                 // aRotation
-    );
-    const points = curve.getPoints( 50 );
-    const geometry = new THREE.BufferGeometry().setFromPoints( points );
-    const material = new THREE.LineBasicMaterial( { color : 0xff0000 } );
+  createSilhouette () {
 
-    // Create the final object to add to the scene
-    this.ellipse = new THREE.Line( geometry, material );
-    this.ellipse.rotation.set(
-      THREE.Math.degToRad(90),
-      THREE.Math.degToRad(0),
-      THREE.Math.degToRad(0)
-    )
-
-    this.el.object3D.parent.rotation.set(
-      THREE.Math.degToRad(this.speaker_index * 180/this.speakers_list.length),
-      THREE.Math.degToRad(this.speaker_index * 180/this.speakers_list.length),
-      THREE.Math.degToRad(0)
-    );
-
-    this.ellipse.visible = this.show_orbits
-
-    this.el.object3D.parent.el.object3D.add(this.ellipse)
-
-    setInterval(this.orbit.bind(this), 10)
-
-  },
-  calculateVariablePosition () {
-    const max_radius = 50
-    const min_radius = 10
-    this.vel = (Math.random() * 0.025) - 0.012
-    this.theta = 0
-    this.radiusX = min_radius + (Math.random() * max_radius - min_radius)
-    this.radiusY = min_radius + (Math.random() * max_radius - min_radius)
-    this.pos = {x: 0, y: 0, z: 0}
-
-    const curve = new THREE.EllipseCurve(
-      0,  0,            // ax, aY
-      this.radiusX, this.radiusY,           // xRadius, yRadius
-      0,  2 * Math.PI,  // aStartAngle, aEndAngle
-      false,            // aClockwise
-      0                 // aRotation
-    );
-    
-    const points = curve.getPoints( 50 );
-    const geometry = new THREE.BufferGeometry().setFromPoints( points );
-    
-    const material = new THREE.LineBasicMaterial( { color : 0xff0000 } );
-    
-    // Create the final object to add to the scene
-    this.ellipse = new THREE.Line( geometry, material );
-    this.ellipse.rotation.set(
-      THREE.Math.degToRad(90),
-      THREE.Math.degToRad(0),
-      THREE.Math.degToRad(0)
-    )
-
-    this.ellipse.visible = this.show_orbits
-
-    this.el.object3D.parent.el.object3D.add(this.ellipse)
-
-    this.el.object3D.parent.rotation.set(
-      THREE.Math.degToRad(Math.random() * 60 - 30),
-      THREE.Math.degToRad(0),
-      THREE.Math.degToRad(0)
-    );
-
-    setInterval(this.orbit.bind(this), 10)
-  },
-
-  orbit () {
-    this.theta+=this.vel
-    this.pos = {x: this.radiusX * Math.cos( this.theta ), y: 0, z: this.radiusY * Math.sin( this.theta )};
-    this.el.object3D.position.set(this.pos.x, this.pos.y, this.pos.z)
+    var _el = document.createElement('a-image')
+    _el.setAttribute('src', '#silhouette-' + getRandomInt(0, 5))
+    _el.setAttribute('width', '1')
+    _el.setAttribute('height', '1.8')
+    _el.setAttribute('position', '0 -0.8 0')
+    _el.setAttribute('look-at-y', `#camera`)
+    _el.setAttribute('material', `alphaTest: 0.1;`)
+    _el.setAttribute('visible', false)
+    this.img = _el
+    this.el.appendChild(this.img)
   },
 
   addEvents () {
     document.addEventListener('start', () => {
-      if (this.speaker_index == 0) {
-        this.playSound(this.cur_index)
-      }
+      // if (this.speaker_index == 0) {
+      this.playSound(this.cur_index)
+      // }
     })
     document.addEventListener('show_names', () => {
       this.show_names = true
       this.name_el.setAttribute('visible', this.show_names)
+      this.img.setAttribute('visible', this.show_names)
 
     })
     document.addEventListener('hide_names', () => {
       this.show_names = false
       this.name_el.setAttribute('visible', this.show_names)
+      this.img.setAttribute('visible', this.show_names)
     })
 
     document.addEventListener('show_orbits', () => {
@@ -197,22 +131,19 @@ AFRAME.registerComponent('speaker', {
       // create audio entity
       var _el = document.createElement('a-entity');
       let audio_id = a.file.replace('.mp3', '').replace('convert_dest/', "")
-      _el.setAttribute('sound', 'src: #' + audio_id) // + '; distanceModel: exponential;'
+      _el.setAttribute('sound', 'src: #' + audio_id + ';volume: 0.5;' ) // + '; distanceModel: exponential;'
       _el.setAttribute('id', this.data.name_id + i)
       _el.addEventListener('sound-ended', (evt) => {
-
-        let selectable_speakers = this.speakers_list.filter(s => s !== this.data.name)
-
-        let next_speaker = selectable_speakers[Math.floor(Math.random() * selectable_speakers.length)];
-
-        console.log('next_speaker', next_speaker, selectable_speakers, this.speakers_list, this.speaker_index)
-
         this.cur_index = this.cur_index === this.audio_list.length-1 ? 0 : this.cur_index+1
-        
+
+        /*
+        let selectable_speakers = this.speakers_list.filter(s => s !== this.data.name)
+        let next_speaker = selectable_speakers[Math.floor(Math.random() * selectable_speakers.length)];
         var event = new CustomEvent('next-sound', {detail: next_speaker})
         document.dispatchEvent(event)
+        */
         
-        // this.playSound(this.cur_index)
+        this.playSound(this.cur_index)
       })
       this.el.appendChild(_el)
     })
@@ -234,10 +165,10 @@ AFRAME.registerComponent('speaker', {
     this.name_target_el = name_target_el
 
     var name_el = document.createElement('a-entity');
-    name_el.setAttribute('geometry', `primitive: plane;`)
-    name_el.setAttribute('look-at', `#camera`)
-    name_el.setAttribute('position', `0 0.6 -0.5;`)
-    name_el.setAttribute('material', `shader: html; target: #name-el-${this.data.name_id}; ratio: height;`)
+    name_el.setAttribute('geometry', `primitive: plane; height: 0.2;`)
+    name_el.setAttribute('look-at-y', `#camera`)
+    name_el.setAttribute('position', `0 0.3 0;`)
+    name_el.setAttribute('material', `shader: html; side: double; target: #name-el-${this.data.name_id}; ratio: height;`)
     name_el.setAttribute('visible', this.show_names)
     this.el.appendChild(name_el)
     this.name_el = name_el
@@ -269,25 +200,11 @@ AFRAME.registerComponent('speaker', {
       var text_el = document.createElement('a-entity');
       text_el.setAttribute('geometry', `primitive: plane;`)
       text_el.setAttribute('id', `text-plane-${this.data.name_id}`)
-      text_el.setAttribute('look-at', `#camera`)
+      text_el.setAttribute('look-at-y', `#camera`)
       text_el.setAttribute('position', `0 -0.6 -0.5;`)
       text_el.setAttribute('material', `shader: html; target: #text-el-${this.data.name_id}; ratio: height;`)
       this.el.appendChild(text_el)
     }
-  },
-
-  setupAudioMeter () {
-    this.context = new AudioContext();
-    this.processor = this.context.createScriptProcessor(2048, 1, 1);
-    this.processor.onaudioprocess = function(evt){
-      var input = evt.inputBuffer.getChannelData(0)
-        , len = input.length   
-        , total = i = 0
-        , rms;
-      while ( i < len ) total += Math.abs( input[i++] );
-      rms = Math.sqrt( total / len );
-      console.log(( rms * 100 ));
-    };
   },
 
   playSound: function(index) {
@@ -306,3 +223,30 @@ AFRAME.registerComponent('speaker', {
     */
   }
 });
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+class Walker {
+  constructor(width, height) {
+    this.simplex = new SimplexNoise()
+    this.tx = Math.random()*2 - 1;
+    this.ty = Math.random()*2 -1;
+    this.vel = Math.random() / 1000
+
+    this.width = width 
+    this.height = height
+  }
+  step(object3D) {
+    let x = this.simplex.noise2D(this.tx, this.width)
+    let y = this.simplex.noise2D(this.ty, this.height)
+    // this.val = this.simplex.noise2D(this.tx, this.ty)
+    object3D.position.set(x*this.width/2, object3D.position.y, y*this.height/2)
+    this.tx+= this.vel;
+    this.ty+= this.vel;
+    
+  }
+}
